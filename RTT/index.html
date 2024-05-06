@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iakzs' Translator</title>
+</head>
+<body>
+    <textarea id="inputText" placeholder="Enter text to translate"></textarea>
+    <button onclick="translateText()">Translate</button>
+    <p id="translatedText"></p>
+
+    <script>
+        function translateText() {
+            const inputText = document.getElementById('inputText').value;
+            const userLanguage = navigator.language || navigator.userLanguage;
+            const targetLanguage = userLanguage.split('-')[0];
+
+            fetch(`https://api.mymemory.translated.net/get?q=${inputText}&langpair=en|${targetLanguage}`)
+                .then(response => response.json())
+                .then(data => {
+                    const translatedText = data.responseData.translatedText;
+                    document.getElementById('translatedText').innerText = translatedText;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
